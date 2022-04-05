@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+.navbar{
+    background-color: #5D5FEF;
+}
+.navbar a{
+    color: white;
+    margin: 0px 15px;
+    font-family: 'Roboto Mono', monospace;
+}
+.navbar ul{
+    margin-left: 1100px;
+}
+
+.jumbotron {
+    margin: 30px 100px;
+}
+
+.box-tanggal
+{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: -100px 200px;
+}
+
+.box-isi
+{
+    border: 1px solid black;
+    margin-top: -50px;
+    margin-bottom: 100px;
+    margin-left: 200px;
+    margin-right: 200px;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.table-catatan
+{
+    margin: 150px 200px;
+}
+
+.footer
+{
+    background-color: #5D5FEF;
+    height: 110px;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+.container
+{
+    display: flex;
+    flex-direction: right;
+    margin-bottom: 288px;
+}
+
+.card-title
+{
+    float: right;
+    display: block;
+}
+
+.card{
+    margin: 0px 20px;
+}
