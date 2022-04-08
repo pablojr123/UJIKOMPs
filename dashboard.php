@@ -35,7 +35,7 @@ if(!isset($_SESSION['user']))
             <a class="nav-link active" aria-current="page" href="dashboard.php">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="catatanperjalanan.php">Note</a>
+            <a class="nav-link" href="catatanperjalanan.php">Catatan</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="form.php">Isi Data</a>

@@ -7,7 +7,6 @@ if(isset($_POST['submit']))
 {
     if($_POST['nik'] == "" && $_POST['nama_lengkap'] == "")
     {
-        echo "<script>alert('Register Gagal Silakan Coba Lagi')</script>";
         header('Location: register.php');
         exit;
     }else{
@@ -19,11 +18,10 @@ if(isset($_POST['submit']))
 
         if($execute)
         {
-            echo "<script>alert('Register Berhasil Silakan Login')</script>";
+            header('Location: login.php');
         }else
         {
-            echo "<script>alert('Register Gagal Silakan Coba Lagi')</script>";
-            header('Location: register.php');
+            header('Location: login.php');
             exit;
         }
     }

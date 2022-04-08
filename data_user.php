@@ -1,6 +1,8 @@
 <?php session_start();
 
-if(!isset($_SESSION['user']))
+include "koneksi.php";
+
+if(!isset($_SESSION['admin']))
 {
   header('Location: login.php');
   exit;
@@ -21,10 +23,10 @@ if(!isset($_SESSION['user']))
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <title>ISI DATA</title>
+    <title>CATATAN</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><img src="icons/logo.svg" alt="">Peduli Diri</a>
       <a class="navbar-brand" href="#"> </a>
@@ -33,14 +35,11 @@ if(!isset($_SESSION['user']))
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="dashboard.php">Dashboard</a>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="data_user.php">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="catatanperjalanan.php">Catatan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="form.php">Isi Data</a>
+            <a class="nav-link active" aria-current="page" href="admin.php">Table Data</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" style="background-color: white; border-radius: 7px; color: black" href="logout.php">Keluar</a>
@@ -51,40 +50,64 @@ if(!isset($_SESSION['user']))
   </nav>
       <div class="jumbotron" style="background-color: white;">
       <h1 class="display-4"> <img src="icons/profile.svg" alt=""><?= $_SESSION['username']?></h1>
-        <p class="lead">Isi Data</p>
+        <p class="lead">Catatan Perjalanan</p>
         <hr class="my-4">
       </div>
-      <div class="box-isi">
-        <?= @$_SESSION['success']; 
-            @$_SESSION['failed'];
-        ?>
-        <form action="process_form.php" method="post">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Tanggal Perjalanan</label>
-            <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="" style="border: 3px solid #5D5FEF; border-radius: 100px;" required name="tanggal">
-            <small id="emailHelp" class="form-text text-muted"></small>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Waktu Perjalanan</label>
-            <input type="time" class="form-control" id="exampleInputPassword1" placeholder="" style="border: 3px solid #5D5FEF; border-radius: 100px;" required name="waktu">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Lokasi Perjalanan</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="" style="border: 3px solid #5D5FEF; border-radius: 100px;" required name="lokasi">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Suhu</label>
-            <input type="number" class="form-control" id="exampleInputPassword1" placeholder="" style="border: 3px solid #5D5FEF; border-radius: 100px;" required name="suhu">
-          </div>
-          <button type="submit" class="btn btn-primary" style="background-color: #5D5FEF;">Submit</button>
-        </form>
+      <div class="box-tanggal">
+        <label for="tanggal" style="font-weight: bold; margin: 10px;">
+            Urutkan Berdasarkan Tanggal
+        </label>
+        <input type="date" id="max">
+        <a class="nav-link" style="background-color: #5D5FEF; border-radius: 7px; float: right; color: white;" href="cetak.php">CETAK</a>
       </div>
-        <footer id="sticky-footer" class="footer flex-shrink-0 py-4 text-white-50">
+      <div class="table-catatan">
+        <table id="example" class="display">
+            <thead>
+              <tr>
+                <th scope="col">NO</th>
+                <th scope="col">NIK</th>
+                <th scope="col">NAMA LENGKAP</th>
+                <th scope="col">LEVEL</th>
+                <th scope="col">AKSI</th>
+            </thead>
+            <tbody>
+             <?php 
+             $select="SELECT * FROM user";
+             $execute = mysqli_query($koneksi, $select);
+             $nomer=0;
+             while ($hasil = mysqli_fetch_array ($execute)):
+                     $nik  = stripslashes($hasil['nik']);
+                     $nama_lengkap       = stripslashes ($hasil['nama_lengkap']);
+                     $level         = stripslashes ($hasil['level']);
+
+             
+                 $nomer++;
+             ?>
+              <tr>
+                <th scope="row"><?= $nomer ?></th>
+                <td><?= $nik ?></td>
+                <td><?= $nama_lengkap ?></td>
+                <td><?= $level ?></td>
+                <td><a href="hapus_process.php?id=<?= $id_catatan ?>"><img src="icons/hapus.png" alt=""></a></td>
+              </tr>
+              <?php endwhile;?>
+            </tbody>
+          </table>
+        </div>
+        <footer id="sticky-footer" class="footer flex-shrink-0 py-4 text-white-50" style="margin-top: 300px">
           <center>
             <small>© 2000 - Company, Inc. All rights reserved. Address Address</small>
           </center>
         </footer>
-</body>
+      </body>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <link rel="stylesheet" href="http://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+      <script src="http://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+      <script>       
+              $(document).ready( function () {
+                   $('#example').DataTable();
+                  });
+      </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

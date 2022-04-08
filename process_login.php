@@ -22,7 +22,7 @@ if($cek > 0){
 		$_SESSION['username'] = $nama_lengkap;
         $_SESSION['admin'] = "admin";
         $_SESSION['nik'] = $data['nik'];
-		header("location: admin.php");
+		header("location: data_user.php");
 
 	}else if($data['level']=="user"){
 		$_SESSION['username'] = $nama_lengkap;

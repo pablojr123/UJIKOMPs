@@ -11,7 +11,7 @@ $execute = mysqli_query($koneksi, $query);
 
 if($execute)
 {
-    header('Location: catatanperjalanan.php');
+    header('Location: admin.php');
     exit;
 }else
 {

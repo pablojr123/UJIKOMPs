@@ -4,7 +4,14 @@ session_start();
 
 if(isset($_SESSION['nik']))
 {
-    header('Location: dashboard.php');
+    if(isset($_SESSION['admin']))
+    {
+        header('Location: admin.php');
+        
+    }else if(isset($_SESSION['user']))
+    {
+        header('Localtion: user.php');
+    }
 }
 
 ?>
@@ -29,7 +36,33 @@ if(isset($_SESSION['nik']))
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#nik").keypress(function (e) {
+                var keyCode = e.keyCode || e.which;
+    
+                //Regex for Valid Characters i.e. Numbers.
+                var regex = /^[0-9]+$/;
+    
+                //Validate TextBox value against the Regex.
+                var isValid = regex.test(String.fromCharCode(keyCode));
+                if (!isValid) {
+                    $("#nik_err").show();
+                }
+                return isValid;
+            });
+        });
+        $( document ).ready(function() {
+                $( "#txtOnly" ).keypress(function(e) {
+                    var key = e.keyCode;
+                    if (key >= 48 && key <= 57) {
+                        e.preventDefault();
+                        $("#txt_err").show();
+                    }
+                });
+            });
+    </script>
 </head>
 
 <body style="background-color: #5D5FEF;">
@@ -56,13 +89,15 @@ if(isset($_SESSION['nik']))
                                     </div>
                                     <form class="user" method="post" action="process_login.php">
                                         <div class="form-group">
-                                            <input name="nik" required type="number" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                            <input name="nik" required type="text" class="form-control form-control-user"
+                                                id="nik" aria-describedby="emailHelp"
                                                 placeholder="Masukan NIK Anda..." style="border: 3px solid #5D5FEF; border-radius: 100px;">
+                                                <span id="nik_err" style="color: green; display:none; font-size: 15px;">Hanya Angka yang diizinkan</span>
                                         </div>
                                         <div class="form-group">
                                             <input name="nama_lengkap" required type="text" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Masukan Nama Lengkap Anda" style="border: 3px solid #5D5FEF; border-radius: 100px;">
+                                                id="txtOnly" placeholder="Masukan Nama Lengkap Anda" style="border: 3px solid #5D5FEF; border-radius: 100px;">
+                                                <span id="txt_err" style="color: green; display:none; font-size: 15px;">Hanya Huruf yang diizinkan</span>
                                         </div>    
                                         <button type="submit" class="btn btn-primary btn-user btn-block" name="submit">
                                            <i class="fa fa-spinner" ></i>Login
